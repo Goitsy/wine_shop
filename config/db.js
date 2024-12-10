@@ -11,3 +11,4 @@ export const connect = () => {
     const uri = process.env.MONGO_URI;
     return mongoose.connect(uri)
 }
+
