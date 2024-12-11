@@ -1,54 +1,41 @@
-
 import Product from "../models/Product.js";
 
-
-
 const addProduct = async (req, res) => {
-    const { name, description, price, image, category } = req.body;
-    try {
-        const products = await Product.create({
-            name, description, price, image, category
-        });
-        restart.status(201).json({ message: "successfully added Product", products })
+  const { name, description, price } = req.body;
 
-    } catch (error) {
-        restart.status(500).json({ message: error.message })
-
-    }
-}
+  try {
+    const product = await Product.create({ name, description, price });
+    res.status(201).json({ message: "Product added", product });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 const updateProduct = async (req, res) => {
-    const { id, name, description, price } = req.body;
+  const { id, name, description, price } = req.body;
 
-
-    try {
-        const products = await Product.findByIdAndUpdate(
-            id, (name, description, price),
-            {
-                new: true
-            }
-
-        );
-        if (!products) return res.status(404).json({
-            message: "Product Not Found"
-        });
-        res.json({ message: "Product update", products })
-
-    } catch (error) {
-        res.status(500).json({ message: error.message })
-
-    }
-
-}
+  try {
+    const product = await Product.findByIdAndUpdate(
+      id,
+      { name, description, price },
+      { new: true }
+    );
+    if (!product) return res.status(404).json({ message: "Product not found" });
+    res.json({ message: "Product updated", product });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 const deleteProduct = async (req, res) => {
-    const { id } = req.params;
-    try {
-        await Product.findByIdAndDelete(id);
-        res.json({ message: "Product Deleted" })
-    } catch (error) {
-        res.status(500).json({ message: error.message })
-    }
-}
+  const { id } = req.params;
 
-export { addProduct, updateProduct, deleteProduct }
+  try {
+    await Product.findByIdAndDelete(id);
+    res.json({ message: "Product deleted" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export { addProduct, updateProduct, deleteProduct };
