@@ -6,8 +6,16 @@ import { connect } from "./config/db.js";
 connect();
 const app = express();
 const PORT = process.env.PORT || 5001;
+
+
+// sample route
+
+app.get("/")
+
+
+
 app.listen(PORT, () => {
-  console.log(`Server is running on port: ${PORT}`);
+    console.log(`Server is running on port: ${PORT}`);
 });
 
 
