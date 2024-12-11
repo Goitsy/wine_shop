@@ -2,11 +2,21 @@ import mongoose from "mongoose";
 import { Schema, model } from "mongoose";
 import bcrypt from "bcryptjs";
 
+const cartProductSchema = new Schema({
+  product: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Product",
+    required: true,
+  },
+  quantity: { type: Number, default: 1 },
+});
+
 const userSchema = new Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   role: { type: String, default: "user", require: true },
+  cart: [cartProductSchema],
 });
 
 userSchema.pre("save", async function (next) {
